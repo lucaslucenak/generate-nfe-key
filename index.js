@@ -41,18 +41,20 @@ class Note {
 let key, keyStr;
 let qttNewNotes = 10;
 let newNotes = [];
-let ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, verifierDigit;
 
 
-// key = JSBI.BigInt('25220426490913000208652060000500541206537238')
-key = JSBI.BigInt('43171207364617000135550000000120141000120146')
+
+key = JSBI.BigInt('25220426490913000208652060000500541206537238')
+// key = JSBI.BigInt('43171207364617000135550000000120141000120146')
 
 
 function generateNewNote(key, index) {
-    let newNote;
+    let ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, verifierDigit;
+
     let sum = 0;
     let aux = 2;
     let count = 0;
+
     let keyStr = key.toString()
     let keyLen = keyStr.length;
     let reversedFirstKeyDigits = keyStr.substring(0, 43).split('').reverse().join('')
@@ -74,9 +76,10 @@ function generateNewNote(key, index) {
     }
     console.log(sum)
 
-    if ((sum % 11) != 0 )
-
-    
+    if ((sum % 11) != 0) {
+        verifierDigit = 11 - (sum % 11);
+        // console.log(verifierDigit)
+    }
 
     ufEmitente = keyStr.substring(0, 2)
     year = keyStr.substring(2, 4)
@@ -84,10 +87,12 @@ function generateNewNote(key, index) {
     cnpj = keyStr.substring(6, 20)
     noteModel = keyStr.substring(20, 22)
     noteSerie = keyStr.substring(22, 25)
-    noteNumberF = keyStr.substring(25, 34)
+    noteNumberF = parseInt(keyStr.substring(25, 34)) + index
     emissionType = keyStr.substring(34, 35)
-    numericCode = keyStr.substring(35, 43)
-    verifierDigit = keyStr.substring(43, 44)
+    numericCode = parseInt(keyStr.substring(35, 43)) + index
+    // verifierDigit = keyStr.substring(43, 44)
+
+    let newNote = new Note(ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, verifierDigit)
 
     return newNote;
 }
