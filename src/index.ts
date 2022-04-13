@@ -1,16 +1,18 @@
 import JSBI from "jsbi";
 
-const key = JSBI.BigInt('25220426490913000208652060000500541206537238');
 // const key = JSBI.BigInt('43171207364617000135550000000120141000120146');
+// const key = JSBI.BigInt('25220426490913000208652060000500541206537238');
+const key = JSBI.BigInt('25220426490913000208652060000500541206537238');
 
+
+console.log("Nota de base:\n" + String(key));
+console.log("-----------")
 const qttNewNotes = 10;
 const newNotes = generateNewNotes(key, qttNewNotes);
-
+console.log("Novas notas:")
 for (let i = 0; i < newNotes.length; i++) {
     console.log(newNotes[i])
 }
-
-
 
 
 function incrementStringValue(value: string, increment: number) {
@@ -79,8 +81,12 @@ function generateNewNotes(key: JSBI, index: number) {
 
         // console.log("sum = " + sum);
         verifierDigit = 0;
-        verifierDigit = 11 - (sum % 11);
-
+        if ((11 - (sum % 11)) == 10 || (11 - (sum % 11)) == 11) {
+            verifierDigit = 0
+        }
+        else {
+            verifierDigit = 11 - (sum % 11);
+        }
         
         // console.log("verifierDigit = " + verifierDigit)
         let newNote_withVF = newKey_withoutVF + verifierDigit;
