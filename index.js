@@ -46,58 +46,67 @@ let newNotes = [];
 
 key = JSBI.BigInt('25220426490913000208652060000500541206537238')
 // key = JSBI.BigInt('43171207364617000135550000000120141000120146')
+newNotes = generateNewNote(key, 5)
+for (let i = 0; i < newNotes.length; i++) {
+    console.log(newNotes[i])
+}
 
 
 function generateNewNote(key, index) {
-    let ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, verifierDigit;
-
-    let sum = 0;
-    let aux = 2;
-    let count = 0;
-
     let keyStr = key.toString()
-    let keyLen = keyStr.length;
-    let reversedFirstKeyDigits = keyStr.substring(0, 43).split('').reverse().join('')
-    console.log(keyLen)
+    let newNotes = []
+    for (let i = 0; i < index; i++) {
+        let ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, verifierDigit = 0;
+        
+
+        ufEmitente = keyStr.substring(0, 2)
+        year = keyStr.substring(2, 4)
+        month = keyStr.substring(4, 6)
+        cnpj = keyStr.substring(6, 20)
+        noteModel = keyStr.substring(20, 22)
+        noteSerie = keyStr.substring(22, 25)
+        noteNumberF = parseInt(keyStr.substring(25, 34)) + i + 1
+        emissionType = keyStr.substring(34, 35)
+        numericCode = parseInt(keyStr.substring(35, 43)) + i + 1
+        let newKey = ufEmitente + year + month + cnpj + noteModel + noteSerie + noteNumberF + emissionType + numericCode
+        
+        let keyLen = keyStr.length;
+        let reversedFirstKeyDigits = newKey.substring(0, 43).split('').reverse().join('')
+
+
+        let sum = 0;
+        let aux = 2;
+        let count = 0;
+        
+        while (count != keyLen - 1) {
+            let digit = parseInt(reversedFirstKeyDigits[count])
+
+            // console.log("operacao: " + digit + " * " + aux + " = " + digit*aux)
+            sum += digit * parseInt(aux);
+            aux++;
+            count++;
     
-    // console.log(reversedFirstKeyDigits)
-    while (count != keyLen - 1) {
-        let digit = parseInt(reversedFirstKeyDigits[count])
-        console.log("operacao: " + digit + " * " + aux + " = " + digit*aux)
-
-        sum += digit * parseInt(aux);
-
-        aux++;
-        count++;
-
-        if (aux > 9) {
-            aux = 2;
+            if (aux > 9) {
+                aux = 2;
+            }
         }
+
+        verifierDigit = 0;
+        console.log(typeof(verifierDigit))
+        if ((sum % 11) != 0) {
+            verifierDigit = 11 - (sum % 11);
+            console.log(typeof(verifierDigit))
+        }
+        console.log(typeof(verifierDigit))
+    
+        let newNote = new Note(ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, verifierDigit)
+        newNotes.push(newNote);
     }
-    console.log(sum)
 
-    if ((sum % 11) != 0) {
-        verifierDigit = 11 - (sum % 11);
-        // console.log(verifierDigit)
-    }
 
-    ufEmitente = keyStr.substring(0, 2)
-    year = keyStr.substring(2, 4)
-    month = keyStr.substring(4, 6)
-    cnpj = keyStr.substring(6, 20)
-    noteModel = keyStr.substring(20, 22)
-    noteSerie = keyStr.substring(22, 25)
-    noteNumberF = parseInt(keyStr.substring(25, 34)) + index
-    emissionType = keyStr.substring(34, 35)
-    numericCode = parseInt(keyStr.substring(35, 43)) + index
-    // verifierDigit = keyStr.substring(43, 44)
-
-    let newNote = new Note(ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, verifierDigit)
-
-    return newNote;
+    return newNotes;
 }
 
-console.log(generateNewNote(key, 0))
 
 // console.log(keyStr)
 // console.log(ufEmitente)
