@@ -1,4 +1,0 @@
-    if ((sum % 11) != 0) {
-        verifierDigit = 11 - (sum % 11);
-        // console.log(verifierDigit)
-    }
