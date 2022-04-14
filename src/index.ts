@@ -1,23 +1,29 @@
 import JSBI from "jsbi";
 import { Key } from "./entities/Key";
-//intall ts-node globaly => npm install -g ts-node
+//isntall ts-node globaly => npm install -g ts-node
 
 // const key = JSBI.BigInt('43171207364617000135550000000120141000120146');
-// const key = JSBI.BigInt('25220426490913000208652060000500541206537238');
-const key = JSBI.BigInt('25220426490913000208652060000500541206537238');
 
+//*********************************************************************************************//
+//---------------------------------------------CODE--------------------------------------------//
+//*********************************************************************************************//
+const key = JSBI.BigInt('25220426490913000208652060000500541206537238'); // Alter to your key
+const qttNewNotes = 10; // Alter to your wanted quantity of new keys
+const newNotes = generateNewNotes(key, qttNewNotes); // List with all new notes
 
 console.log("Nota de base:\n" + String(key));
 console.log("-----------")
-const qttNewNotes = 10;
-const newNotes = generateNewNotes(key, qttNewNotes);
 console.log("Novas notas:")
 for (let i = 0; i < newNotes.length; i++) {
     let aux = newNotes[i];
     console.log(aux.getFullKey);
 }
 
-
+//*********************************************************************************************//
+//------------------------------------------FUNCTIONS------------------------------------------//
+//*********************************************************************************************//
+// Add all the zeros before the integer number. Requires the number value and
+// the number that will be incremented to the value
 function incrementStringValue(value: string, increment: number) {
     var valueInt = parseInt(value) + increment;
     var leftPadLenght = getLeftPadLength(value);
@@ -28,9 +34,9 @@ function incrementStringValue(value: string, increment: number) {
     newValue += valueInt;
     // console.log(newValue);
     return newValue;
-
 }
 
+// Get the number of "zeros" before the integer number. Requires the key value
 function getLeftPadLength(value: string) {
     let leftPad: number = 0;
     for (let i = 0; i < value.length; i++) {
@@ -44,6 +50,7 @@ function getLeftPadLength(value: string) {
     return leftPad;
 }
 
+// Generate all the new notes. Requires the key and the quantity of new notes
 function generateNewNotes(key: JSBI, index: number) {
     var keyString = key.toString();
     const newNotes = [];
@@ -62,10 +69,9 @@ function generateNewNotes(key: JSBI, index: number) {
         emissionType = keyString.substring(34, 35)
         numericCode = incrementStringValue(keyString.substring(35, 43), i+1)
 
-
         let newKey_withoutVF = ufEmitente + year + month + cnpj + noteModel + noteSerie + noteNumberF + emissionType + numericCode
         let reversedNewKey_withoutVF = newKey_withoutVF.substring(0, 43).split('').reverse().join('')
-        
+
         let sum = 0;
         let aux = 2;
         let count = 0;
@@ -92,7 +98,6 @@ function generateNewNotes(key: JSBI, index: number) {
         }
         
         // console.log("verifierDigit = " + verifierDigit)
-        let newNote_withVF = newKey_withoutVF + verifierDigit;
         const newKey = new Key(ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, String(verifierDigit));
         newNotes.push(newKey);
         // console.log("newNote_withVF = " + newNote_withVF)
