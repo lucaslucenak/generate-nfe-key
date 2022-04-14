@@ -1,4 +1,5 @@
 import JSBI from "jsbi";
+//intall ts-node globaly => npm install -g ts-node
 
 // const key = JSBI.BigInt('43171207364617000135550000000120141000120146');
 // const key = JSBI.BigInt('25220426490913000208652060000500541206537238');
