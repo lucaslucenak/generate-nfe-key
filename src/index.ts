@@ -1,4 +1,5 @@
 import JSBI from "jsbi";
+import { Key } from "./entities/Key";
 //intall ts-node globaly => npm install -g ts-node
 
 // const key = JSBI.BigInt('43171207364617000135550000000120141000120146');
@@ -12,7 +13,8 @@ const qttNewNotes = 10;
 const newNotes = generateNewNotes(key, qttNewNotes);
 console.log("Novas notas:")
 for (let i = 0; i < newNotes.length; i++) {
-    console.log(newNotes[i])
+    let aux = newNotes[i];
+    console.log(aux.getFullKey);
 }
 
 
@@ -49,7 +51,7 @@ function generateNewNotes(key: JSBI, index: number) {
         var ufEmitente: string, year: string, month: string,
         cnpj: string, noteModel: string, noteSerie: string,
         noteNumberF: string, emissionType: string, numericCode: string, verifierDigit: number;
-    
+
         ufEmitente = keyString.substring(0, 2);
         year = keyString.substring(2, 4)
         month = keyString.substring(4, 6)
@@ -91,7 +93,8 @@ function generateNewNotes(key: JSBI, index: number) {
         
         // console.log("verifierDigit = " + verifierDigit)
         let newNote_withVF = newKey_withoutVF + verifierDigit;
-        newNotes.push(newNote_withVF);
+        const newKey = new Key(ufEmitente, year, month, cnpj, noteModel, noteSerie, noteNumberF, emissionType, numericCode, String(verifierDigit));
+        newNotes.push(newKey);
         // console.log("newNote_withVF = " + newNote_withVF)
     }
     return newNotes;

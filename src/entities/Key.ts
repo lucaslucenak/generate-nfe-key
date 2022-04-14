@@ -23,28 +23,26 @@ export class Key {
         this.verifierDigit = verifierDigit;
     }
 
-    getUfEmitente() { return this.ufEmitente}
-    getYear() { return this.year}
-    getMonth() { return this.month}
-    getCnpj() { return this.cnpj}
-    getNoteModel() { return this.noteModel}
-    getNoteSerie() { return this.noteSerie}
-    getNoteNumberF() { return this.noteNumberF}
-    getEmissionType() { return this.emissionType}
-    getNumericCode() { return this.numericCode}
-    getVerifierDigit() { return this.verifierDigit}
+    get getUfEmitente() { return this.ufEmitente}
+    get getYear() { return this.year}
+    get getMonth() { return this.month}
+    get getCnpj() { return this.cnpj}
+    get getNoteModel() { return this.noteModel}
+    get getNoteSerie() { return this.noteSerie}
+    get getNoteNumberF() { return this.noteNumberF}
+    get getEmissionType() { return this.emissionType}
+    get getNumericCode() { return this.numericCode}
+    get getVerifierDigit() { return this.verifierDigit}
+    get getFullKey() { return this.ufEmitente+this.year+this.month+this.cnpj+this.noteModel+this.noteSerie+this.noteNumberF+this.emissionType+this.numericCode+this.verifierDigit}
 
-    setUfEmitente(ufEmitente: string) {this.ufEmitente = ufEmitente}
-    setYear(year: string) {this.year = year}
-    setMonth(month: string) {this.month = month}
-    setCnpj(cnpj: string) {this.cnpj = cnpj}
-    setNoteModel(noteModel: string) {this.noteModel = noteModel}
-    setNoteSerie(noteSerie: string) {this.noteSerie = noteSerie}
-    setNoteNumberF(noteNumberF: string) {this.noteNumberF = noteNumberF}
-    setEmissionType(emissionType: string) {this.emissionType = emissionType}
-    setNumericCode(numericCode: string) {this.numericCode = numericCode}
-    setVerifierDigit(verifierDigit: string) {this.verifierDigit = verifierDigit}
+    set setUfEmitente(ufEmitente: string) {this.ufEmitente = ufEmitente}
+    set setYear(year: string) {this.year = year}
+    set setMonth(month: string) {this.month = month}
+    set setCnpj(cnpj: string) {this.cnpj = cnpj}
+    set setNoteModel(noteModel: string) {this.noteModel = noteModel}
+    set setNoteSerie(noteSerie: string) {this.noteSerie = noteSerie}
+    set setNoteNumberF(noteNumberF: string) {this.noteNumberF = noteNumberF}
+    set setEmissionType(emissionType: string) {this.emissionType = emissionType}
+    set setNumericCode(numericCode: string) {this.numericCode = numericCode}
+    set setVerifierDigit(verifierDigit: string) {this.verifierDigit = verifierDigit}
 }
-
-const chave = new Key('1','1','1','1','1','1','1','1','1','1')
-console.log(chave)
