@@ -1,23 +1,29 @@
 import JSBI from "jsbi";
 import { Key } from "./entities/Key";
+
 //isntall ts-node globaly => npm install -g ts-node
 
-// const key = JSBI.BigInt('43171207364617000135550000000120141000120146');
 
 //*********************************************************************************************//
 //---------------------------------------------CODE--------------------------------------------//
 //*********************************************************************************************//
-const key = JSBI.BigInt('25220426490913000208652060000500541206537238'); // Alter to your key
+const key = JSBI.BigInt('12354615213549212051212000000520050123564895'); // Alter to your key
 const qttNewNotes = 10; // Alter to your wanted quantity of new keys
-const newNotes = generateNewNotes(key, qttNewNotes); // List with all new notes
 
-console.log("Nota de base:\n" + String(key));
-console.log("-----------")
-console.log("Novas notas:")
-for (let i = 0; i < newNotes.length; i++) {
-    let aux = newNotes[i];
-    console.log(aux.getFullKey);
+if (String(key).length == 44) {
+    const newNotes = generateNewNotes(key, qttNewNotes); // List with all new notes
+    console.log("Base note:\n" + String(key));
+    console.log("-----------")
+    console.log("New notes:")
+    for (let i = 0; i < newNotes.length; i++) {
+        let aux = newNotes[i];
+        console.log(aux.getFullKey);
+    }
 }
+else {
+    console.log("Key must have 44 digits.")
+}
+
 
 //*********************************************************************************************//
 //------------------------------------------FUNCTIONS------------------------------------------//
@@ -54,6 +60,7 @@ function getLeftPadLength(value: string) {
 function generateNewNotes(key: JSBI, index: number) {
     var keyString = key.toString();
     const newNotes = [];
+    
     for (var i = 0; i < index; i++) {
         var ufEmitente: string, year: string, month: string,
         cnpj: string, noteModel: string, noteSerie: string,
